@@ -6,12 +6,10 @@ const express = require('express');
 
 async function  getAllUsers(req,res)
 {
-    if(!req.user){
-        res.status(401).json({error:"Unauthorized"})
-    }
+
     try {
         await prisma.user.findMany()
-            .then(result=> res.send(result).json())
+            .then(result=> res.status(200).json(result))
     }
     catch (error){
         res.send(error);}
@@ -25,7 +23,7 @@ async function  getUser(req,res)
         await prisma.user.findFirst({
             where:{id:Number(req.params.id)}
         })
-            .then(result=> res.send(result).json())
+            .then(result=> res.status(200).json(result));
     }
     catch (error){
         res.send(error);}
@@ -44,8 +42,8 @@ async function addUser (req,res) {
                 password,
             },
         },)
-        res.json(result)
-        console.log((result))
+        res.status(200).json(result)
+
     }
 
 

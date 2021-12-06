@@ -1,12 +1,13 @@
 const express = require('express')
 const dotenv  = require('dotenv');
 const cors = require ('cors')
+const app=express();
 
 const userRouter = require('./routes/router.js')
 const videoRouter = require("./routes/videoRouter");
 
 dotenv.config()
-const app=express();
+
 
 app.use(express.json())
 
@@ -24,6 +25,5 @@ app.get('/',(req,res)=>{
 
 app.listen(process.env.PORT,()=>{
     console.log("hello"+ process.env.PORT)
-
 
 })
