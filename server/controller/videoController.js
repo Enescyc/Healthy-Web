@@ -37,7 +37,5 @@ async function deleteVideo(req,res){
         .catch(err=>console.log(err));
 
 }
-async function updateVideo(req,res){
-//to do
-}
-module.exports={getVideo,addVideo,deleteVideo,getAllVideos,updateVideo};
+
+module.exports={getVideo,addVideo,deleteVideo,getAllVideos};

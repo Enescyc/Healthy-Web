@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,31 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User {
-  id Int @id @default(autoincrement())
-  name String 
-  secondName String
-  telephoneNumber String
-  password String?
-  identificationNumber String @unique
-  Uservideo UserVideo[]
-}
-model Video {
-  id Int @id @default(autoincrement())
-  url String
-  title String
-  content String
-  count Int
-  Uservideo UserVideo[]
+model user {
+  id                   Int         @id @default(autoincrement())
+  name                 String
+  secondName           String
+  telephoneNumber      String
+  password             String?
+  identificationNumber String      @unique(map: "User_identificationNumber_key")
+  uservideo            uservideo[]
+  token String?
 }
 
-model UserVideo {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userID],references:[id])
-  userID Int
-  video Video @relation(fields: [videoID], references:[id])
+model uservideo {
+  id      Int   @id @default(autoincrement())
+  userID  Int
   videoID Int
-  count Int 
+  count   Int
+  user    user  @relation(fields: [userID], references: [id], map: "UserVideo_userID_fkey")
+  video   video @relation(fields: [videoID], references: [id], map: "UserVideo_videoID_fkey")
 
+  @@index([userID], map: "UserVideo_userID_fkey")
+  @@index([videoID], map: "UserVideo_videoID_fkey")
+}
+
+model video {
+  id        Int         @id @default(autoincrement())
+  content   String
+  count     Int
+  title     String
+  url       String
+  uservideo uservideo[]
+}
+
+model admins {
+    id Int @id @default(autoincrement())
+    username String
+    password String
 }
